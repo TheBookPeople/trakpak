@@ -30,6 +30,7 @@ func NewClient(licenseNo, userID, password string) *Client {
 type Client struct {
 	*AccessRequest
 	TestMode bool
+	Verbose  bool
 }
 
 func parseShipmentResponse(r io.Reader) (*ShipmentResponse, error) {
@@ -74,7 +75,10 @@ func (c *Client) BookShipment(s *Shipment) (*ShipmentResponse, error) {
 	}
 
 	b, err := ioutil.ReadAll(resp.Body)
-	//	log.Println(string(b))
+	if c.Verbose {
+		log.Println(string(b))
+	}
+
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("Shipment booking request returned: %v", resp.Status)
 	}
