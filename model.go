@@ -121,8 +121,8 @@ type Ack struct {
 
 // ShipmentResponse - the wrapped response to a ShipmentBookingRequest
 type ShipmentResponse struct {
-	Hawb               string `valid:"required,length(1|12)`
-	TrackingNumber     string `valid:"required,length(1|50)`
+	Hawb               string `valid:"required,length(1|12)"`
+	TrackingNumber     string `valid:"required,length(1|50)"`
 	TrackingUrl        string `valid:"required"`
 	QuickTrackURL      string
 	CarrierTrackingUrl string `valid:"required"`
