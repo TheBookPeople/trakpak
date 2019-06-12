@@ -11,6 +11,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 const baseURL = "http://trakpak.co.uk/API/" // FIXME: Non-SSL???
@@ -38,11 +40,11 @@ func parseShipmentResponse(r io.Reader) (*ShipmentResponse, error) {
 	var ack ShipmentBookingAck
 
 	if err := xml.NewDecoder(r).Decode(&ack); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Problem decoding TrakPak shipment booking acknowledgement")
 	}
 
 	if ack.ShipmentResponse == nil {
-		return nil, fmt.Errorf(ack.ErrorData)
+		return nil, errors.Errorf("Error: Trakpak shipment reponse was nil: %s", ack.ErrorData)
 	}
 	return ack.ShipmentResponse, nil
 }
@@ -54,13 +56,11 @@ func (c *Client) BookShipment(s *Shipment) (*ShipmentResponse, error) {
 	enc.Indent("", "  ")
 	err := enc.Encode(c.AccessRequest)
 	if err != nil {
-		log.Println("Problem encoding access request: ", c.AccessRequest)
-		return nil, err
+		return nil, errors.Wrapf(err, "Problem encoding TrakPak access request: %v", c.AccessRequest)
 	}
 	err = enc.Encode(s)
 	if err != nil {
-		log.Println("Problem encoding shipment: ", s)
-		return nil, err
+		return nil, errors.Wrapf(err, "Problem encoding TrakPak shipment: %v", s)
 	}
 	log.Println(buf.String())
 	url := baseURL + "?command=create"
@@ -70,8 +70,7 @@ func (c *Client) BookShipment(s *Shipment) (*ShipmentResponse, error) {
 	log.Println(url)
 	resp, err := http.Post(url, "text/xml", &buf)
 	if err != nil {
-		log.Println("Problem posting to:", url)
-		return nil, err
+		return nil, errors.Wrapf(err, "Probem booking TrakPak shipment; failed to POST to %s", url)
 	}
 
 	b, err := ioutil.ReadAll(resp.Body)
@@ -82,8 +81,7 @@ func (c *Client) BookShipment(s *Shipment) (*ShipmentResponse, error) {
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("Shipment booking request returned: %v", resp.Status)
 	}
-	shipmentResponse, err := parseShipmentResponse(bytes.NewReader(b))
-	return shipmentResponse, err
+	return parseShipmentResponse(bytes.NewReader(b))
 }
 
 // VoidShipment - TODO

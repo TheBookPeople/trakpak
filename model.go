@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"encoding/xml"
 	"time"
+
+	"github.com/pkg/errors"
 )
 
 // Time - Marshalls time.Time to expected format.
@@ -13,19 +15,20 @@ var timeFormat = "2006-01-02 15:04:05"
 
 //	"2016-10-21 18:53:53" as "2006-01-02T15:04:05Z07:00"
 
-// MarshalXML - Marshals time to correct format.
+// MarshalXML - Marshals time to TrakPak format.
 func (t Time) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	e.EncodeElement(time.Time(t).Format(timeFormat), start)
-	return nil
+	return errors.Wrap(e.EncodeElement(time.Time(t).Format(timeFormat), start), "Problem encoding time to TrakPak format")
 }
 
-// Unmarshals time from correct format.
+// UnmarshalXML - Unmarshals time from TrakPak format.
 func (t *Time) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v string
-	d.DecodeElement(&v, &start)
+	if err := d.DecodeElement(&v, &start); err != nil {
+		return errors.Wrapf(err, "Problem decoding element %v when unmarshaling TrakPak time", start)
+	}
 	parsedTime, err := time.Parse(timeFormat, v)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "Problem parsing trackpack time %q", v)
 	}
 	*t = Time(parsedTime)
 	return nil
