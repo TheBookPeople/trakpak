@@ -13,7 +13,7 @@ var timeFormat = "2006-01-02 15:04:05"
 
 //	"2016-10-21 18:53:53" as "2006-01-02T15:04:05Z07:00"
 
-// Marshals time to correct format.
+// MarshalXML - Marshals time to correct format.
 func (t Time) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	e.EncodeElement(time.Time(t).Format(timeFormat), start)
 	return nil
