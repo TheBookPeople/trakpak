@@ -123,9 +123,9 @@ type Ack struct {
 type ShipmentResponse struct {
 	Hawb               string `valid:"required,length(1|12)"`
 	TrackingNumber     string `valid:"required,length(1|50)"`
-	TrackingUrl        string `valid:"required"`
+	TrackingURL        string `valid:"required"`
 	QuickTrackURL      string
-	CarrierTrackingUrl string `valid:"required"`
+	CarrierTrackingURL string `valid:"required"`
 	LabelImage         Label  `valid:"required"`
 	LabelImageFormat   string `valid:"required,length(3|3)"`
 }
