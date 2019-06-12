@@ -48,15 +48,15 @@ func TestLabels(t *testing.T) {
 	}{
 		{
 			"RSLW", 11.99, 1.606, 32, 24, 19,
-			Destination{"", "c/o Sue Steed", "Carrer de la Valleta, 6.", "Ginestar", "Tarragona", "Catalunya", "ES", "43748", "Ben West", "", "", ""},
+			Destination{"", "c/o Sue Steed", "Carrer de la Valleta, 6.", "Ginestar", "Tarragona", "Catalunya", "ES", "43748", "Ken Best", "", "", ""},
 		},
 		{
 			"LPSV", 4.99, 1.115, 32, 24, 19,
-			Destination{"", "c/o Dan Badge Manufacturing sdn.bhd", "26-S, Jalan Bidara 2/5,", "Taman Bidara", "Selayang, Batu Caves", "Selangor", "MY", "68100", "Sakila bin Mohd Zain", "", "", ""},
+			Destination{"", "c/o Dan Badge Manufacturing sdn.bhd", "26-S, Jalan Bidara 2/5,", "Taman Bidara", "Selayang, Batu Caves", "Selangor", "MY", "68100", "Mr Foo Bar", "", "", ""},
 		},
 		{
 			"LPSV", 4.99, 1.115, 32, 24, 19,
-			Destination{"", "5485 Byscane Lane", "", "", "Minnetonka", "Minnesota", "US", "55345-5603", "Mrs Cheryl Kerber", "", "", ""},
+			Destination{"", "5485 Byscane Lane", "", "", "Minnetonka", "Minnesota", "US", "55345-5603", "Mrs Alice Smith", "", "", ""},
 		},
 		{
 			"RSLW", 11.99, 1.606, 32, 24, 19,
@@ -64,7 +64,7 @@ func TestLabels(t *testing.T) {
 		},
 		{
 			"LPSV", 4.99, 1.115, 32, 24, 19,
-			Destination{"", "11 Pisani Court", "Golden Grove", "", "Adelaide", "South Australia", "AU", "5125", "Mrs D Richards", "", "", ""},
+			Destination{"", "11 Pisani Court", "Golden Grove", "", "Adelaide", "South Australia", "AU", "5125", "Mrs A Smith", "", "", ""},
 		},
 	}
 
