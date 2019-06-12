@@ -130,8 +130,10 @@ type ShipmentResponse struct {
 	LabelImageFormat   string `valid:"required,length(3|3)"`
 }
 
+// Label - Base64 encoded label
 type Label string
 
+// Decode - Decodes Base64 data
 func (l *Label) Decode() ([]byte, error) {
 	return base64.StdEncoding.DecodeString(string(*l))
 }
